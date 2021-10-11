@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="denne-mappen-trengs-ikke-roeres/er-du-synsk.css">
+    <title>Er du synsk?</title>
+</head>
+<body>
+    
+    <header>
+        <h1>Er du synsk?</h1>
+    </header>
+
+    <div id="container-for-everything">
+
+        <section>
+            <div id="box1-div">Denne?</div>
+            <div id="box2-div">Eller denne?</div>
+        </section>
+
+        <div id="number-of-lives-div"></div>
+    
+        <p>Antall riktige: <span id="numbers-of-right-answers">0</span></p>
+
+        <p>Antall feil: <span id="numbers-of-wrong-answers">0</span></p>  
+        <p id="info-message"></p> <!-- Brukes til å instruere brukeren, og til å oppdatere brukeren om riktig eller feil svar-->
+
+    </div>
+
+    <script>
+        
+        //HTML-objekter
+
+        var container = document.getElementById("container-for-everything");
+
+        var box1Div = document.getElementById("box1-div");
+        var box2Div = document.getElementById("box2-div");
+
+        var numberOfLivesDiv = document.getElementById("number-of-lives-div");        
+
+        var numberOfRightAnswers = document.getElementById("numbers-of-right-answers")
+        var numberOfWrongAnswers = document.getElementById("numbers-of-wrong-answers")
+        var infoMessage = document.getElementById("info-message");
+        // Variabler
+        
+        var randomNumber;
+        var lives;
+        var rightCount;
+        var wrongCount;
+
+        // Funksjoner
+        
+        // Funksjon for å oppdatere liv 
+        function updateLives () {  
+            numberOfLivesDiv.innerHTML =`<img src="images/person1.jpg">`.repeat(lives);
+        }
+
+        //Funksjon for random number
+        function newRandomNumber () {
+            randomNumber = Math.floor(Math.random()*2)+1;
+        }
+
+        // Funksjon for når brukeren gjetter riktig
+        function onCorrectAnswer () {
+            rightCount +=1;
+            numberOfRightAnswers.innerHTML = rightCount;
+            infoMessage.innerHTML = "Riktig svar";
+
+            if (rightCount === 3 || rightCount === 5 || rightCount === 7) { //Legger til liv hvis de har 3, 5 eller 7 antall riktige
+                lives +=1;
+                updateLives();
+            }
+            else if (rightCount === 10) {
+                container.innerHTML = `<h2>Gratulerer du vant spillet!</h2><img src="images/fireworks.jpg">`
+            } 
+        }
+
+        // Funksjon for når brukeren gjetter feil
+        function onWrongAnswer () { 
+            wrongCount +=1;
+            numberOfWrongAnswers.innerHTML = wrongCount;
+            lives = lives-1;
+            infoMessage.innerHTML = "Feil svar";
+            if (lives === 0) {
+                container.innerHTML = `<h2>Beklager du tapte spillet!</h2>`  
+            }
+            updateLives();
+        }
+
+        // Funksjon for boks 1: "Denne?"
+        function checkBoxDiv1 () {
+            if (lives > 0) {
+                if (randomNumber === 1) {
+                    onCorrectAnswer(); // Får funksjonen for når brukeren gjetter riktig til å kjøre
+                }
+                else {
+                    onWrongAnswer(); // Får funksjonen for når brukeren gjetter feil til å kjøre
+                }
+                newRandomNumber();
+            } 
+        }
+
+        // Funksjon for boks 2: "Eller denne?"
+        function checkBoxDiv2 () {
+            if (lives > 0) {
+                if (randomNumber === 2) {
+                    onCorrectAnswer(); // Får funksjonen for når brukeren gjetter riktig til å kjøre
+                }
+                else {
+                    onWrongAnswer(); // Får funksjonen for når brukeren gjetter feil til å kjøre
+                }
+                newRandomNumber();
+            } 
+        }
+
+        // Funksjon for hvordan spillet ser ut før man gjetter
+        function gameSetup () {
+            newRandomNumber();
+            infoMessage.innerHTML = "Klikk på en av boksene for å begynne spillet";
+            rightCount = 0;
+            wrongCount = 0;
+            lives = 5;
+            updateLives();
+        }
+        gameSetup ();
+
+        // Events
+
+        box1Div.onclick = checkBoxDiv1; 
+        box2Div.onclick = checkBoxDiv2;
+
+    </script>
+
+</body>
+</html>

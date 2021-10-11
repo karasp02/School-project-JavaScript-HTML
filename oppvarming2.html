@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oppvarming 2</title>
+</head>
+<body>
+    
+    
+    <h3>Klikk på den du tror har en katt!</h3>
+    <img id="check-person1-img" src="images/person1.jpg">
+    <img id="check-person2-img" src="images/person2.jpg">
+    <div id="output-div"></div>
+    
+    <p id="message"></p>
+    <img id="image" src="">
+
+    </br>
+    <button id="playAgainButton" onclick="playAgain()" type="button">Spill igjen!</button> <!--Knapp som gjør at du kan spille igjen, for bedre funksjonalitet på nettsiden-->
+
+    <script>
+      
+        // HTML-objekter
+
+        var personOneImage = document.getElementById("check-person1-img");
+        var personTwoImage = document.getElementById("check-person2-img");
+        var outputDiv = document.getElementById("output-div");
+
+        var messageP = document.getElementById("message");
+        var image = document.getElementById("image");
+
+        var playAgainButton = document.getElementById("playAgainButton");
+        
+        // Variabler
+
+        var randomNumber;
+        var hasClicked;
+
+        // Funksjoner
+
+        function onCorrectAnswer () {
+            messageP.innerHTML = "Det er riktig! Personen har en katt :)";
+            image.src="images/cat.jpg";
+        }
+
+        function onWrongAnswer () {
+            messageP.innerHTML = "Det er feil! Personen har en frosk :(";
+            image.src="images/frog.jpg";
+        }
+
+        function checkPerson1 () {
+            if (hasClicked === false) { //Sjekker om brukeren har trykket på bildet
+                hasClicked = true;
+            
+                if (randomNumber === 1) {
+                    onWrongAnswer();  
+                }
+
+                else if (randomNumber === 2) {
+                    onCorrectAnswer();
+                }
+                playAgainButton.style.visibility = "visible";
+            }
+        }
+
+        function checkPerson2 () {
+            if (hasClicked === false) { //Sjekker om brukeren har trykket på bildet
+                hasClicked = true;
+                
+                if (randomNumber === 2) {
+                    onWrongAnswer();  
+                }
+
+                else if (randomNumber === 1) {
+                    onCorrectAnswer();
+                }
+                playAgainButton.style.visibility = "visible";
+            }
+        }
+            
+        function playAgain () { //Setter variablene for spillet
+            randomNumber = Math.floor(Math.random()*2) +1;
+            hasClicked = false; 
+            messageP.innerHTML = "";
+            image.src = "";
+            playAgainButton.style.visibility = "hidden";
+        }
+
+        // Sette funksjoner i gang
+
+        playAgain(); //Gjør at funksjonen playAgain starter 
+
+        // Events
+
+        personOneImage.onclick = checkPerson1;
+        personTwoImage.onclick = checkPerson2;
+      
+    </script>
+
+</body>
+</html>
+
+
